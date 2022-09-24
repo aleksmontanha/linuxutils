@@ -1,0 +1,19 @@
+import os, subprocess
+
+def get_uuid():
+    dmidecode = subprocess.Popen(['dmidecode'],
+                                      stdout=subprocess.PIPE,
+                                      bufsize=1,
+                                      universal_newlines=True
+                                      )
+
+    while True:
+        line = dmidecode.stdout.readline()
+        if "UUID:" in str(line):
+            uuid = str(line).split("UUID:", 1)[1].split()[0]
+            return uuid
+        if not line:
+            break
+
+my_uuid = get_uuid()
+print("My ID:", my_uuid)
